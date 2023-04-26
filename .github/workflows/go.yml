@@ -15,7 +15,7 @@ jobs:
 
         go-version: [latest]
 
-        os: [windows-latest, macos-latest, ubuntu-latest, android-29, freebsd-12, openbsd-6, dragonfly-5]
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
         arch: [386, amd64, arm64, ppc64le, mips, mipsle]
 
