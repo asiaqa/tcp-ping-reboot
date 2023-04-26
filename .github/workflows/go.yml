@@ -93,6 +93,6 @@ jobs:
 
       with:
 
-        name: ${{ env.GITHUB_REPOSITORY##*/}}_${{ matrix.os }}_${{ matrix.arch }}
+        name: ${{ env.GITHUB_REPOSITORY}}_${{ matrix.os }}_${{ matrix.arch }}
 
-        path: ${{ env.GITHUB_REPOSITORY##*/}}-latest/${{ matrix.os }}/
+        path: ${{ env.GITHUB_REPOSITORY}}-latest/${{ matrix.os }}/
