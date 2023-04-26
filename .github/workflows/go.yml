@@ -13,9 +13,9 @@ jobs:
       arch: [386, amd64, arm64, ppc64le, mips, mipsle]
   steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
     - name: Setup Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v2
       with:
         go-version: ${{ matrix.go-version }}
     - name: Build Binary
