@@ -1,0 +1,43 @@
+name: Build and Publish
+
+on: 
+ workflow_dispatch: 
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [latest]
+        os: [windows-latest, macos-latest, ubuntu-latest, android-29, freebsd-12, openbsd-6, dragonfly-5]
+        arch: [386, amd64, arm64, ppc64le, mips, mipsle]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+    - name: Build Binary
+      env:
+        GOOS: ${{ matrix.os }}
+        GOARCH: ${{ matrix.arch }}
+      run: |
+        go build -o "bin/{{.OS}}/{{.Arch}}/{{.Name}}" -ldflags "-w -s" .
+    - name: Compress Binary
+      env:
+        OS: ${{ matrix.os }}
+        ARCH: ${{ matrix.arch }}
+        BIN_NAME: ${{ env.GITHUB_REPOSITORY##*/}}
+        DIR_NAME: ${{ env.GITHUB_REPOSITORY##*/}}-latest
+        COMPRESSED_FILE_EXT: ${{ if eq .Environment.OS "windows-latest" }}zip${{ else }}tar.gz${{ end }}
+      run: |
+        FILE_NAME="${BIN_NAME}_${OS}_${ARCH}.${COMPRESSED_FILE_EXT}"
+        [ -d $DIR_NAME/$OS ] || mkdir -p $DIR_NAME/$OS
+        [ -f $DIR_NAME/$OS/$FILE_NAME ] && rm $DIR_NAME/$OS/$FILE_NAME
+        {{ if eq .Environment.OS "windows-latest" }}zip{{ else }}tar -czf{{ end }} $DIR_NAME/$OS/$FILE_NAME -C bin/$OS/$ARCH/ .
+    - name: Publish Binary
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ env.GITHUB_REPOSITORY##*/}}_${{ matrix.os }}_${{ matrix.arch }}
+        path: ${{ env.GITHUB_REPOSITORY##*/}}-latest/${{ matrix.os }}/
