@@ -53,9 +53,9 @@ jobs:
 
         ARCH: ${{ matrix.arch }}
 
-        BIN_NAME: ${{ env.GITHUB_REPOSITORY##*/}}
+        BIN_NAME: ${{ env.GITHUB_REPOSITORY}}
 
-        DIR_NAME: ${{ env.GITHUB_REPOSITORY##*/}}-latest
+        DIR_NAME: ${{ env.GITHUB_REPOSITORY}}-latest
 
         COMPRESSED_FILE_EXT: ""
 
