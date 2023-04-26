@@ -28,8 +28,8 @@ jobs:
       env:
         OS: ${{ matrix.os }}
         ARCH: ${{ matrix.arch }}
-        BIN_NAME: ${{ env.GITHUB_REPOSITORY/}}
-        DIR_NAME: ${{ env.GITHUB_REPOSITORY/}}-latest
+        BIN_NAME: ${{ env.GITHUB_REPOSITORY}}
+        DIR_NAME: ${{ env.GITHUB_REPOSITORY}}-latest
         COMPRESSED_FILE_EXT: ${{ if eq .Environment.OS "windows-latest" }}zip${{ else }}tar.gz${{ end }}
       run: |
         FILE_NAME="${BIN_NAME}_${OS}_${ARCH}.${COMPRESSED_FILE_EXT}"
@@ -39,5 +39,5 @@ jobs:
     - name: Publish Binary
       uses: actions/upload-artifact@v2.2.4
       with:
-        name: ${{ env.GITHUB_REPOSITORY##*/}}_${{ matrix.os }}_${{ matrix.arch }}
-        path: ${{ env.GITHUB_REPOSITORY##*/}}-latest/${{ matrix.os }}/
+        name: ${{ env.GITHUB_REPOSITORY}}_${{ matrix.os }}_${{ matrix.arch }}
+        path: ${{ env.GITHUB_REPOSITORY}}-latest/${{ matrix.os }}/
