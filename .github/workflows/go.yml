@@ -35,7 +35,7 @@ jobs:
         FILE_NAME="${BIN_NAME}_${OS}_${ARCH}.${COMPRESSED_FILE_EXT}"
         [ -d $DIR_NAME/$OS ] || mkdir -p $DIR_NAME/$OS
         [ -f $DIR_NAME/$OS/$FILE_NAME ] && rm $DIR_NAME/$OS/$FILE_NAME
-        {{ if eq .Environment.OS "windows-latest" }}zip{{ else }}tar -czf{{ end }} $DIR_NAME/$OS/$FILE_NAME -C bin/$OS/$ARCH/ .
+        ${{ if eq .Environment.OS "windows-latest" }}zip{{ else }}tar -czf{{ end }} $DIR_NAME/$OS/$FILE_NAME -C bin/$OS/$ARCH/ .
     - name: Publish Binary
       uses: actions/upload-artifact@v2.2.4
       with:
